@@ -20,20 +20,13 @@ steps:
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     goals: 'package'
+
+steps:
 - task: CopyFiles@2
   inputs:
-    Contents: '**/.war'
-    TargetFolder: '$(build.artifactstagingdirectory)'
-# Publish build artifacts v1
-# Publish build artifacts to Azure Pipelines or a Windows file share.
+    contents: '_buildOutput/**/.war'
+    targetFolder: $(Build.ArtifactStagingDirectory)
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)' # string. Required. Path to publish. Default: $(Build.ArtifactStagingDirectory).
-    ArtifactName: 'drop' # string. Required. Artifact name. Default: drop.
-    publishLocation: 'Container' # 'Container' | 'FilePath'. Alias: ArtifactType. Required. Artifact publish location. Default: Container.
-    #TargetPath: # string. Required when ArtifactType = FilePath. File share path. 
-    #Parallel: false # boolean. Optional. Use when ArtifactType = FilePath. Parallel copy. Default: false.
-    #ParallelCount: '8' # string. Optional. Use when ArtifactType = FilePath && Parallel = true. Parallel count. Default: 8.
-  # Advanced
-    #FileCopyOptions: # string. Optional. Use when ArtifactType = FilePath. File copy options. 
-    #StoreAsTar: false # boolean. Tar the artifact before uploading. Default: false.
+    pathToPublish: $(Build.ArtifactStagingDirectory)
+    artifactName: MyBuildOutputs
